@@ -1,6 +1,5 @@
 import { Briefcase, CalendarCheck, Trophy, XCircle } from 'lucide-react';
 import { RecentApplications, StatsCard } from '../components/Dashboard';
-import useAuth from '../hooks/useAuth';
 
 const MOCK_APPLICATIONS = [
   {
@@ -72,58 +71,27 @@ const STATS = [
 ];
 
 const DashboardPage = () => {
-  const { user, signOut } = useAuth();
-
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Apply Pilot</h1>
-            <p className="text-sm text-gray-500">
-              Welcome back,{' '}
-              {user?.user_metadata?.full_name ??
-                user?.user_metadata?.name ??
-                user?.email}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-          >
-            Sign out
-          </button>
-        </div>
-      </header>
-
-      {/* Dashboard Content */}
-      <div className="mx-auto max-w-6xl px-6 py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {STATS.map((stat) => (
-            <StatsCard
-              key={stat.title}
-              title={stat.title}
-              value={stat.value}
-              icon={stat.icon}
-              bgColor={stat.bgColor}
-              textColor={stat.textColor}
-            />
-          ))}
-        </div>
-
-        {/* Recent Applications */}
-        <div className="mt-8">
-          <RecentApplications applications={MOCK_APPLICATIONS} />
-        </div>
+    <div className="mx-auto max-w-6xl px-6 py-8">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {STATS.map((stat) => (
+          <StatsCard
+            key={stat.title}
+            title={stat.title}
+            value={stat.value}
+            icon={stat.icon}
+            bgColor={stat.bgColor}
+            textColor={stat.textColor}
+          />
+        ))}
       </div>
-    </main>
+
+      {/* Recent Applications */}
+      <div className="mt-8">
+        <RecentApplications applications={MOCK_APPLICATIONS} />
+      </div>
+    </div>
   );
 };
 
