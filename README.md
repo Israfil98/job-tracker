@@ -6,18 +6,22 @@ A job application tracker that helps you stay organized during your job search. 
 
 ## Features
 
-- **Dashboard** — overview of your application stats (total, interviews, offers, rejections)
+- **Dashboard** — real-time stats (total, interviews, offers, rejections) with recent applications
 - **Application tracking** — add, view, edit, and delete job applications
 - **Status filtering** — filter applications by status (Applied, Interview, Offer, Rejected)
+- **Pagination** — applications table paginates at 10 items per page with smart page numbers
 - **Authentication** — email/password, Google OAuth, and GitHub OAuth via Supabase
 - **Protected routes** — secure pages that require login, with automatic redirects
+- **Toast notifications** — success and error feedback for all CRUD actions
+- **Custom confirm modal** — styled delete confirmations replacing browser popups
+- **Responsive design** — mobile hamburger menu, card layouts on small screens, table on desktop
 
 ## Tech Stack
 
 - **Frontend:** React 19, TypeScript, Vite 7, Tailwind CSS 4
 - **Backend:** Supabase (auth, database, row-level security)
-- **State Management:** Zustand
-- **Routing:** React Router 7
+- **State Management:** Zustand (auth store, toast store)
+- **Routing:** React Router 7 (layout routes, lazy loading, protected/public routes)
 - **Forms:** React Hook Form
 - **Icons:** lucide-react
 - **Code Quality:** ESLint 9, Prettier, Husky, lint-staged
@@ -84,6 +88,14 @@ Create a `job_applications` table in your Supabase project with the following co
 | `created_at`   | timestamptz | `now()`             | —                                              |
 
 Enable Row Level Security (RLS) with policies scoped to `auth.uid() = user_id` for SELECT, INSERT, UPDATE, and DELETE.
+
+## Architecture
+
+- **Pages** compose components and handle data fetching
+- **Components** are presentational, receiving data via props
+- **Hooks** encapsulate reusable logic (auth, CRUD operations)
+- **Stores** manage global state with Zustand (auth, toasts)
+- **Layout routes** provide shared navigation via `AppLayout` in `ProtectedRoute`
 
 ## Scripts
 
