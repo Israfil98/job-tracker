@@ -8,6 +8,7 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const ApplicationsPage = lazy(() => import('./pages/ApplicationsPage'));
+const AddApplicationPage = lazy(() => import('./pages/AddApplicationPage'));
 
 const Loading = () => (
   <div className="flex min-h-screen items-center justify-center">
@@ -30,6 +31,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/applications" element={<ApplicationsPage />} />
+          <Route path="/applications/new" element={<AddApplicationPage />} />
         </Route>
       </Routes>
     </Suspense>
