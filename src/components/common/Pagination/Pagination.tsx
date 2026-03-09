@@ -95,7 +95,7 @@ const Pagination = ({
               key={page}
               type="button"
               onClick={() => onPageChange(page)}
-              className={`min-w-[36px] rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`min-w-9 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                 page === currentPage
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'

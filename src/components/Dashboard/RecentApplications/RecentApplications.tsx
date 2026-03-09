@@ -45,54 +45,88 @@ const RecentApplications = ({ applications }: IRecentApplicationsProps) => {
         </Link>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
-              <th className="px-6 py-3">Company</th>
-              <th className="px-6 py-3">Position</th>
-              <th className="px-6 py-3">Status</th>
-              <th className="px-6 py-3">Applied</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((app) => (
-              <tr
-                key={app.id}
-                className="border-b border-gray-50 transition-colors last:border-0 hover:bg-gray-50"
+      {/* Mobile cards */}
+      <div className="flex flex-col gap-3 p-4 sm:hidden">
+        {applications.map((app) => (
+          <div key={app.id} className="rounded-lg border border-gray-100 p-4">
+            <div className="flex items-start justify-between">
+              <Link
+                to={`/applications/${app.id}`}
+                className="text-sm font-medium text-gray-900 hover:text-blue-600"
               >
-                <td className="px-6 py-4">
-                  <Link
-                    to={`/applications/${app.id}`}
-                    className="text-sm font-medium text-gray-900 hover:text-blue-600"
-                  >
-                    {app.company}
-                  </Link>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {app.position}
-                </td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[app.status]}`}
-                  >
-                    {app.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-500">
-                  {new Date(app.applied_date + 'T00:00:00').toLocaleDateString(
-                    'en-US',
-                    {
+                {app.company}
+              </Link>
+              <span
+                className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[app.status]}`}
+              >
+                {app.status}
+              </span>
+            </div>
+            <p className="mt-1 text-sm text-gray-600">{app.position}</p>
+            <p className="mt-2 text-xs text-gray-400">
+              {new Date(app.applied_date + 'T00:00:00').toLocaleDateString(
+                'en-US',
+                {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                },
+              )}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-100 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                <th className="px-6 py-3">Company</th>
+                <th className="px-6 py-3">Position</th>
+                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Applied</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applications.map((app) => (
+                <tr
+                  key={app.id}
+                  className="border-b border-gray-50 transition-colors last:border-0 hover:bg-gray-50"
+                >
+                  <td className="px-6 py-4">
+                    <Link
+                      to={`/applications/${app.id}`}
+                      className="text-sm font-medium text-gray-900 hover:text-blue-600"
+                    >
+                      {app.company}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {app.position}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[app.status]}`}
+                    >
+                      {app.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    {new Date(
+                      app.applied_date + 'T00:00:00',
+                    ).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric',
-                    },
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
