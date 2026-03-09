@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# ApplyPilot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A job application tracker that helps you stay organized during your job search. Track applications, monitor statuses, and keep notes — all in one place.
 
-Currently, two official plugins are available:
+**Live:** [apply-pilot-sigma.vercel.app](https://apply-pilot-sigma.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Dashboard** — overview of your application stats (total, interviews, offers, rejections)
+- **Application tracking** — add, view, edit, and delete job applications
+- **Status filtering** — filter applications by status (Applied, Interview, Offer, Rejected)
+- **Authentication** — email/password, Google OAuth, and GitHub OAuth via Supabase
+- **Protected routes** — secure pages that require login, with automatic redirects
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React 19, TypeScript, Vite 7, Tailwind CSS 4
+- **Backend:** Supabase (auth, database, row-level security)
+- **State Management:** Zustand
+- **Routing:** React Router 7
+- **Forms:** React Hook Form
+- **Icons:** lucide-react
+- **Code Quality:** ESLint 9, Prettier, Husky, lint-staged
+- **Testing:** Vitest, React Testing Library
+- **CI/CD:** GitHub Actions, Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+
+- A [Supabase](https://supabase.com) project
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+### Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Israfil98/apply-pilot.git
+cd apply-pilot
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
+
+3. Create a `.env.local` file using the example:
+
+```bash
+cp .env.example .env.local
+```
+
+4. Add your Supabase credentials to `.env.local`:
+
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+5. Start the development server:
+
+```bash
+npm run dev
+```
+
+### Database Setup
+
+Create a `job_applications` table in your Supabase project with the following columns:
+
+| Column         | Type        | Default             | Notes                                          |
+| -------------- | ----------- | ------------------- | ---------------------------------------------- |
+| `id`           | uuid        | `gen_random_uuid()` | Primary key                                    |
+| `user_id`      | uuid        | —                   | Foreign key → `auth.users.id` (cascade delete) |
+| `company`      | text        | —                   | Required                                       |
+| `position`     | text        | —                   | Required                                       |
+| `status`       | text        | `'Applied'`         | Applied, Interview, Offer, or Rejected         |
+| `applied_date` | date        | `now()`             | —                                              |
+| `url`          | text        | —                   | Nullable                                       |
+| `notes`        | text        | —                   | Nullable                                       |
+| `salary`       | text        | —                   | Nullable                                       |
+| `location`     | text        | —                   | Nullable                                       |
+| `created_at`   | timestamptz | `now()`             | —                                              |
+
+Enable Row Level Security (RLS) with policies scoped to `auth.uid() = user_id` for SELECT, INSERT, UPDATE, and DELETE.
+
+## Scripts
+
+| Command                | Description                         |
+| ---------------------- | ----------------------------------- |
+| `npm run dev`          | Start development server            |
+| `npm run build`        | Type-check and build for production |
+| `npm run lint`         | Run ESLint                          |
+| `npm run format`       | Format code with Prettier           |
+| `npm run format:check` | Check formatting without writing    |
+| `npm run test`         | Run tests in watch mode             |
+| `npm run test:run`     | Run tests once                      |
